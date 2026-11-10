@@ -51,32 +51,33 @@ A beginner-friendly Python application that retrieves exchange rates from an ext
    ```bash
    python -m pip install -r requirements.txt
    ```
+6. Install the used packages
+        ```bash
+       python -m pip install streamlit pandas plotly requests
+       ```
 
 ## Usage
 
 Run the application:
 
 ```bash
-python main.py
+python -m streamlit run app.py
 ```
 
 Follow the prompts to enter the source currency, target currency, and amount.
 
 ## Learning Objectives
 
-This project was built to practise:
-
-- Python functions and variables
-- User input and string methods
-- HTTP requests and API integration
-- JSON data processing
-- Error handling
-
-## Future Improvements
-
-- Build an interactive web interface.
-- Add exchange-rate tables and historical data visualization.
-- Introduce an AI-powered currency assistant.
+Current stopping point:
+- Currency conversion.
+- Exchange-rate analytics.
+- Pandas data tables.
+- CSV downloads.
+- Summary metrics.
+- Interactive Plotly charts.
+- Streamlit Session State.
+- API caching.
+- Currency search and sorting.
 
 ## Disclaimer
 
