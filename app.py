@@ -15,6 +15,57 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown(
+    """
+    <style>
+        /* Main application background */
+        .stApp {
+            background-color: #0E1117;
+        }
+
+        /* Main headings */
+        h1, h2, h3 {
+            color: #F5F7FA;
+        }
+
+        /* Metric cards */
+        [data-testid="stMetric"] {
+            background-color: #1A202C;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #2D3748;
+        }
+
+        /* Buttons */
+        .stButton > button {
+            background-color: #00C2A8;
+            color: #0E1117;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+
+        .stButton > button:hover {
+            background-color: #00A58F;
+            color: white;
+            border: none;
+        }
+
+        /* Input fields */
+        .stTextInput input,
+        .stNumberInput input {
+            border-radius: 8px;
+        }
+
+        /* Section separators */
+        hr {
+            border-color: #2D3748;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # --------------------------------------------------
 # SUPPORTED CURRENCIES
@@ -68,10 +119,13 @@ def get_exchange_rates(base_currency):
 # APP TITLE
 # --------------------------------------------------
 
-st.title("💱 Currency Information App")
+st.title("💱 Currency Dashboard")
 
-st.write(
-    "Convert currencies and explore exchange rate information."
+st.markdown(
+    """
+    Monitor exchange rates, convert currencies,
+    and explore currency data in one place.
+    """
 )
 
 st.divider()
@@ -81,73 +135,57 @@ st.divider()
 # CURRENCY CONVERTER
 # --------------------------------------------------
 
-st.header("Currency Converter")
+st.header("💱 Currency Converter")
 
-converter_col1, converter_col2 = st.columns(2)
+converter_col1, converter_col2, converter_col3 = st.columns([2, 1, 2])
 
 with converter_col1:
-
     amount = st.number_input(
-        "Enter Amount",
+        "Amount",
         min_value=0.0,
         value=100.0,
         step=10.0
     )
 
     from_currency = st.selectbox(
-        "From Currency",
+        "From",
         options=list(CURRENCIES.keys()),
         index=0
     )
 
-
 with converter_col2:
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown(
+        "<h2 style='text-align:center;'>⇄</h2>",
+        unsafe_allow_html=True
+    )
 
+with converter_col3:
     to_currency = st.selectbox(
-        "To Currency",
+        "To",
         options=list(CURRENCIES.keys()),
         index=1
     )
 
-
 if st.button("Convert Currency", type="primary"):
-
     try:
-
         rates = get_exchange_rates(from_currency)
-
         exchange_rate = rates[to_currency]
-
         converted_amount = amount * exchange_rate
 
         st.success("Conversion Successful!")
 
         st.metric(
-            label=f"{amount:,.2f} {from_currency} in {to_currency}",
-            value=f"{converted_amount:,.2f} {to_currency}"
-        )
-
-        st.caption(
-            f"1 {from_currency} = "
-            f"{exchange_rate:.4f} {to_currency}"
+            label=f"{from_currency} → {to_currency}",
+            value=f"{converted_amount:,.2f} {to_currency}",
+            delta=f"Rate: {exchange_rate:.4f}"
         )
 
     except requests.exceptions.RequestException:
-
-        st.error(
-            "Unable to connect to the exchange rate API. "
-            "Please check your internet connection and try again."
-        )
+        st.error("Unable to connect to the exchange rate API.")
 
     except (ValueError, KeyError):
-
-        st.error(
-            "Unable to retrieve the selected exchange rate."
-        )
-
-
-st.divider()
-
+        st.error("Unable to retrieve the selected exchange rate.")
 
 # --------------------------------------------------
 # ANALYTICS SECTION
