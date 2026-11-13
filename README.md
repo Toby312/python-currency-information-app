@@ -61,7 +61,7 @@ A beginner-friendly Python application that retrieves exchange rates from an ext
 Run the application:
 
 ```bash
-python -m streamlit run app.py
+python -m streamlit run app/app.py
 ```
 
 Follow the prompts to enter the source currency, target currency, and amount.
